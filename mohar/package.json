@@ -1,0 +1,1 @@
+{ "name": "mohar", "version": "1.1.0", "description": "Mohar: explainable, human-controlled brand review desk (CodeNova Round 2)", "scripts": { "start": "npx serve . -l 3000" } }

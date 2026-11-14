@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mohar: brand review desk</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F2EE;--card:#FFFFFF;--ink:#241F20;--mut:#6A6163;--line:#E4DDD5;--cr:#8B1A22;--cr2:#A82430;--rail:#2B1013;--gold:#B08A3E;--ok:#2F6B4F;--hi:#B5541C;--lo:#41607F;--soft:#F3E9E6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1A1415;--card:#251C1E;--ink:#F1EBE6;--mut:#B3A7A8;--line:#3A2D2F;--cr:#E0646C;--cr2:#E98088;--rail:#120A0B;--gold:#D4AE63;--ok:#6FC39A;--hi:#E89A62;--lo:#8FB3D9;--soft:#32221F;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1A1415;--card:#251C1E;--ink:#F1EBE6;--mut:#B3A7A8;--line:#3A2D2F;--cr:#E0646C;--cr2:#E98088;--rail:#120A0B;--gold:#D4AE63;--ok:#6FC39A;--hi:#E89A62;--lo:#8FB3D9;--soft:#32221F;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 'Instrument Sans',system-ui,sans-serif}
+h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.01em;margin:0}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.app{display:grid;grid-template-columns:238px 1fr;min-height:100vh}
+.rail{background:var(--rail);color:#F3E9E6;padding:22px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px}
+.brand{display:flex;gap:12px;align-items:center;margin-bottom:6px}
+.brand b{font:700 26px 'Fraunces',serif;letter-spacing:.04em}
+.ws{font-size:12.5px;opacity:.7;margin:0 0 18px}
+.nav{background:none;border:0;color:inherit;text-align:left;padding:10px 12px;border-radius:8px;opacity:.78;display:flex;justify-content:space-between;gap:8px}
+.nav:hover{background:rgba(255,255,255,.07);opacity:1}
+.nav[aria-current=page]{background:rgba(255,255,255,.12);opacity:1;box-shadow:inset 3px 0 0 var(--gold)}
+.nav i{font-style:normal;font-size:12px;background:var(--cr);color:#fff;border-radius:99px;padding:0 8px;min-width:20px;text-align:center}
+.roles{margin-top:auto;border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
+.roles p{font-size:12.5px;opacity:.7;margin:0 0 8px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:rgba(255,255,255,.08);border-radius:9px;padding:3px}
+.seg button{background:none;border:0;color:inherit;padding:6px 2px;border-radius:7px;font-size:13px;opacity:.75}
+.seg button[aria-pressed=true]{background:#F3E9E6;color:#2B1013;opacity:1;font-weight:600}
+main{padding:30px clamp(16px,3.4vw,46px) 60px;max-width:1180px;width:100%}
+h1{font-size:clamp(28px,4vw,42px);line-height:1.08}
+.lede{color:var(--mut);max-width:62ch;margin:10px 0 22px}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px;padding:0;list-style:none}
+.steps li{padding:5px 13px;border:1px solid var(--line);border-radius:99px;font-size:13px;color:var(--mut);background:var(--card)}
+.steps li.on{background:var(--cr);border-color:var(--cr);color:#fff;font-weight:600}
+.steps li.done{border-color:var(--ok);color:var(--ok)}
+.cols{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.paper{box-shadow:0 1px 0 var(--line),0 18px 40px -26px rgba(43,16,19,.45);border-top:4px solid var(--cr)}
+.paper h3,.card h3{font-size:19px;margin-bottom:10px}
+textarea,.marked{width:100%;min-height:190px;border:1px solid var(--line);border-radius:10px;padding:14px;background:var(--bg);color:var(--ink);font:17px/1.65 'Fraunces',Georgia,serif;font-weight:500;resize:vertical}
+.marked{white-space:pre-wrap}
+mark{padding:1px 2px;border-radius:3px;color:inherit;cursor:pointer;border-bottom:2px solid}
+mark.Critical{background:rgba(168,36,48,.18);border-color:var(--cr)}mark.High{background:rgba(181,84,28,.2);border-color:var(--hi)}mark.Medium,mark.Low{background:rgba(65,96,127,.2);border-color:var(--lo)}
+.vis{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:14px 0}
+.vis label{font-size:13px;color:var(--mut);display:flex;gap:6px;align-items:center}
+.vis input{width:34px;height:28px;border:1px solid var(--line);border-radius:6px;padding:0;background:none}
+.swatch{flex:1;min-width:190px;border-radius:8px;padding:8px 12px;font-size:13px;border:1px solid var(--line)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{background:var(--cr);color:#fff;border:0;padding:11px 18px;border-radius:9px;font-weight:600}
+.btn:hover{background:var(--cr2)}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line)}.btn.ghost:hover{background:var(--soft)}
+.btn.ok{background:var(--ok)}.btn.sm{padding:6px 12px;font-size:13.5px}
+.f{border:1px solid var(--line);border-left:5px solid var(--cr);border-radius:12px;padding:15px 16px;background:var(--card);margin-bottom:13px}
+.f.High{border-left-color:var(--hi)}.f.Medium,.f.Low{border-left-color:var(--lo)}
+.f.flash{box-shadow:0 0 0 3px var(--gold)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font-size:12px;padding:2px 9px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}
+.tag.sev{font-weight:600;color:var(--ink)}.tag.v{background:var(--soft);color:var(--cr);border-color:transparent;font-weight:600}
+.tag.chk{color:var(--ok);border-color:var(--ok)}.tag.bad{color:var(--cr);border-color:var(--cr)}
+.f h4{margin:0 0 4px;font:600 16px 'Instrument Sans'}
+.q{margin:8px 0;padding:8px 12px;background:var(--bg);border-radius:8px;font-size:13.5px;color:var(--mut)}
+.q b{color:var(--ink)}
+.fix{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:14px;margin:10px 0}
+del{color:var(--cr);text-decoration-thickness:2px}ins{color:var(--ok);text-decoration:none;font-weight:600;background:rgba(47,107,79,.14);padding:0 3px;border-radius:3px}
+.dis{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+select,input[type=text],.card textarea{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+.card textarea.c{min-height:70px;font:inherit;width:100%}
+.types{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:8px;margin-bottom:10px}
+.ty{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:9px 10px;text-align:left;line-height:1.25}
+.ty b{display:block;font-size:14px}.ty span{font-size:12px;color:var(--mut)}
+.ty:hover:not([disabled]){border-color:var(--cr)}.ty[aria-checked=true]{border-color:var(--cr);box-shadow:inset 0 0 0 1px var(--cr);background:var(--soft)}.ty[disabled]{opacity:.6;cursor:not-allowed}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px;font-size:12.5px;color:var(--mut);align-items:center}
+.dz{border:2px dashed var(--line);border-radius:12px;padding:14px;margin-bottom:12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.dz.over{border-color:var(--cr);background:var(--soft)}.dz>div{flex:1;min-width:180px}.dz b{display:block}.dz small{color:var(--mut)}
+.score{display:flex;gap:16px;align-items:center;margin-bottom:16px;padding:16px}
+.ring{width:88px;height:88px;flex:none;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--c) calc(var(--p)*1%),var(--line) 0)}
+.ring i{font:700 26px 'Fraunces',serif;font-style:normal;width:68px;height:68px;border-radius:50%;background:var(--card);display:grid;place-items:center}
+.stat{display:flex;gap:6px;flex-wrap:wrap}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--cr);border-radius:50%;animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.vh{position:absolute;opacity:0;width:1px;height:1px}label:focus-within{outline:3px solid var(--gold)}.empty{border:2px dashed var(--line);border-radius:14px;padding:30px;text-align:center;color:var(--mut)}
+.clear{border:1px solid var(--ok);background:rgba(47,107,79,.1);border-radius:12px;padding:16px;color:var(--ok);font-weight:600}
+.banner{border-radius:12px;padding:12px 16px;margin-bottom:16px;font-weight:500}
+.banner.ok{background:rgba(47,107,79,.14);color:var(--ok)}.banner.warn{background:rgba(181,84,28,.14);color:var(--hi)}.banner.info{background:var(--soft);color:var(--cr)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}.tbl td,.tbl th{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.tbl th{color:var(--mut);font-weight:500}
+.bar{height:10px;border-radius:5px;background:var(--cr);min-width:4px}.barw{background:var(--line);border-radius:5px;width:100%}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.log li{padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;list-style:none}.log{padding:0;margin:0}.log small{color:var(--mut);margin-right:8px}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--rail);color:#fff;padding:10px 18px;border-radius:99px;z-index:9;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.diff{font:16px/1.7 'Fraunces',serif}
+@media (max-width:860px){.app{grid-template-columns:1fr}.rail{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px}.ws,.roles p{display:none}.brand{margin:0 8px 0 0}.roles{margin:0;border:0;padding:0;width:100%}.cols,.grid2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.f{animation:in .35s ease-out}@keyframes in{from{opacity:0;transform:translateY(6px)}}}
+</style></head><body>
+<div class="app">
+<nav class="rail" aria-label="Main">
+<div class="brand"><svg width="44" height="44" viewBox="0 0 64 64" aria-hidden="true"><defs><radialGradient id="g" cx="35%" cy="30%"><stop offset="0" stop-color="#D4434D"/><stop offset=".6" stop-color="#8B1A22"/><stop offset="1" stop-color="#4E0B11"/></radialGradient><filter id="w"><feTurbulence baseFrequency=".07" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="6"/></filter></defs><circle cx="32" cy="32" r="26" fill="url(#g)" filter="url(#w)"/><circle cx="32" cy="32" r="17" fill="none" stroke="#00000044" stroke-width="1.5"/><text x="32" y="41" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="26" fill="#6E1119" stroke="#E57E86" stroke-width=".6">M</text></svg><b>Mohar</b></div>
+<p class="ws">Workspace: Northwind Outdoor Co.</p>
+<div id="nav" style="display:contents"></div>
+<div class="roles"><p>You are working as</p><div class="seg" id="seg"></div></div>
+</nav>
+<main id="main"></main>
+</div>
+<div id="t"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const BASE=[
+{id:'G-2.1',cat:'Tone',title:'Tone of voice',text:'Use at most one exclamation mark per piece and never write headlines in capitals.'},
+{id:'G-4.2',cat:'Claims',title:'Claims policy',text:'Superlatives and absolute claims such as "best", "guaranteed" or "number one" need an approved supporting fact.'},
+{id:'G-7.1',cat:'Visual',title:'Accessibility',text:'Body text must meet a contrast ratio of at least 4.5:1 (WCAG 2.2 SC 1.4.3).'},
+{id:'F-017',cat:'Facts',title:'Customer count',text:'Northwind has served 400,000+ customers (FY2025 annual report).'},
+{id:'PR-SUM-26',cat:'Facts',title:'Summer sale 2026',text:'Summer Sale 2026: up to 25% off selected styles, 1 June to 31 August.'},
+{id:'T-01',cat:'Terminology',title:'Term',bad:'cheap',good:'affordable',text:'Say "affordable", never "cheap".'},
+{id:'T-02',cat:'Terminology',title:'Company name',bad:'Northwind Co',good:'Northwind Outdoor Co.',text:'Write the company name in full: "Northwind Outdoor Co.", never "Northwind Co".'},
+{id:'T-03',cat:'Terminology',title:'Product name',bad:'Ridgeline Pack',good:'Summit Pack',text:'The Ridgeline Pack is now the "Summit Pack"; never use the old name.'},
+{id:'G-5.1',cat:'Format',title:'Email footer',text:'Every marketing email must end with an unsubscribe line.'},
+{id:'G-5.2',cat:'Format',title:'Social posts',text:'Social posts may use at most three hashtags.'},
+{id:'V-1',cat:'Visual',title:'Colour palette',text:'Use only approved brand colours: #1F3A2E, #D9822B, #F4EFE6, #1B1B1B and #FFFFFF.'},
+{id:'V-2',cat:'Visual',title:'Logo',text:'Always use the 2026 logo; the 2022 logo is retired.'},
+{id:'G-5.3',cat:'Format',title:'SMS',text:'SMS must be 160 characters or fewer and end with "Reply STOP to opt out".'},
+{id:'G-6.1',cat:'Accessibility',title:'Link text',text:'Link text must describe the destination; never use "click here" or "read more".'},
+{id:'G-6.2',cat:'Accessibility',title:'Alt text',text:'Every image needs alt text that describes it.'}];
+const SAMPLES={Advertisement:{t:'SUMMER MEGA SALE: 60% OFF everything! Trusted by 1 million customers. The best outdoor gear, period.',fg:'#949494',accent:'#D9822B',logo:'Current 2026'},Post:{t:'Our cheap Ridgeline Pack is back!!! Grab it at Northwind Co this weekend. #outdoors #hiking #camping #summer',fg:'#1B1B1B',accent:'#E0245E',logo:'Old 2022'},Email:{t:'Subject: THE CHEAPEST tents in India\n\nHi there, our guaranteed lowest prices end tonight. Shop now at Northwind Co.',fg:'#6B6B6B',accent:'#1F3A2E',logo:'Current 2026'},Document:{t:'Northwind Outdoor Co. press note\n\nWe have served 5 lakh customers, and our Ridgeline Pack is the number one choice for trekkers. Visit us this summer.',fg:'#1B1B1B',accent:'#1F3A2E',logo:'No logo'}};
+Object.assign(SAMPLES,{
+Newsletter:{t:'Subject: This month at Northwind\n\nNew trails, new gear and a free trail guide. [Read more](https://northwind.example/guide)\nOur cheap Ridgeline Pack is back.',fg:'#1B1B1B',accent:'#1F3A2E',logo:'Current 2026'},
+SMS:{t:'NORTHWIND FLASH SALE: 50% OFF everything today only! Our guaranteed lowest prices on every Ridgeline Pack, tent and boot. Shop now at northwind.example before stock runs out tonight.',fg:'#1B1B1B',accent:'#1F3A2E',logo:'No logo'},
+Website:{t:'Meet the Summit Pack\n\n![](hero.jpg)\n\nThe best pack for long trails, trusted by 2 million customers. [Read more](https://northwind.example/summit)',fg:'#1B1B1B',accent:'#2E6FD9',logo:'Current 2026'},
+Blog:{t:'Five trail tips from Northwind Co\n\nPacking light is the cheapest way to hike farther. Our Ridgeline Pack carries everything you need, and it is the number one choice for trekkers. [click here](https://northwind.example/tips) for the full checklist.',fg:'#1B1B1B',accent:'#1F3A2E',logo:'Current 2026'}});
+const SAMPLE=SAMPLES.Advertisement.t;
+const TYPES=[['Advertisement','Advertisement','Offers and claims'],['Post','Social post','Hashtags and tone'],['Email','Email','Subject and footer'],['Newsletter','Newsletter','Links and footer'],['SMS','SMS','160 characters'],['Website','Website copy','Links and images'],['Blog','Blog article','Voice and links'],['Document','Document or PDF','Notes and releases']];
+const EXTRA={Advertisement:['Promotion limits'],Post:['Max 3 hashtags'],Email:['Unsubscribe line'],Newsletter:['Unsubscribe line','Link text'],SMS:['160 characters','Opt-out line'],Website:['Link text','Alt text'],Blog:['Link text'],Document:[]};
+const score=fs=>Math.max(0,100-fs.reduce((a,f)=>a+({Critical:25,High:15,Medium:8,Low:3}[f.sev]||0),0));
+function fresh(){S.orig=null;S.startScore=undefined;S.dismissed={};S.versions=[];S.ran=false}
+async function pdfText(buf){const L=window.pdfjsLib;L.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+ const doc=await L.getDocument({data:buf}).promise,out=[];
+ for(let p=1;p<=doc.numPages;p++){const c=await (await doc.getPage(p)).getTextContent();let line='',y=null;
+  for(const it of c.items){const yy=it.transform[5];if(y!==null&&Math.abs(yy-y)>3){out.push(line.trim());line=''}line+=it.str+(it.hasEOL?'\n':' ');y=yy}
+  out.push(line.trim(),'')}
+ return{text:out.join('\n').replace(/[ \t]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim(),pages:doc.numPages}}
+async function loadFile(f){if(!f)return;if(f.size>5*1024*1024)return toast('That file is larger than 5 MB');
+ const n=f.name.toLowerCase();S.busy=true;render();
+ try{let text,pages;
+  if(n.endsWith('.pdf')){if(!window.pdfjsLib)throw Error('The PDF reader did not load. Check your connection.');const r=await pdfText(await f.arrayBuffer());text=r.text;pages=r.pages}
+  else if(n.endsWith('.docx')){if(!window.mammoth)throw Error('The Word reader did not load. Check your connection.');text=(await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()})).value}
+  else if(/\.(txt|md)$/.test(n))text=await f.text();else throw Error('Use a PDF, DOCX, TXT or MD file');
+  text=(text||'').trim();if(!text)throw Error('No selectable text found. Scanned PDFs need OCR, which is not in this build.');
+  fresh();S.text=text.slice(0,20000);S.file=f.name+(pages?' · '+pages+' page'+(pages>1?'s':''):'')+' · '+S.text.length.toLocaleString('en-IN')+' characters';log('loaded file '+f.name);toast('Loaded '+f.name)
+ }catch(e){toast(e.message||'Could not read that file')}
+ S.busy=false;render()}
+function scoreBlock(F){const O=F.filter(f=>!S.dismissed[f.key]),n=score(O),s0=S.startScore??n,c=n>=80?'var(--ok)':n>=50?'var(--hi)':'var(--cr)',cnt=k=>O.filter(f=>f.sev===k).length;
+ return `<div class="card score"><div class="ring" style="--p:${n};--c:${c}" role="img" aria-label="Compliance score ${n} out of 100"><i>${n}</i></div><div><h3 style="margin:0 0 4px">Compliance score</h3><div style="color:var(--mut);font-size:13.5px">Started at <b>${s0}</b>, now <b>${n}</b> out of 100. A guide for reviewers, not a verdict.</div><div class="stat" style="margin-top:8px">${['Critical','High','Medium','Low'].map(k=>`<span class="tag">${k}: ${cnt(k)}</span>`).join('')}</div></div></div>`}
+const SEED={cat:{Claims:7,Terminology:5,Tone:4,Visual:3},dis:{'G-2.1':4,'G-4.2':3,'T-01':1},gap:3};
+let S={role:'Creator',tab:'desk',type:'Advertisement',accent:'#D9822B',logo:'Current 2026',text:SAMPLE,fg:'#949494',bg:'#FFFFFF',ran:false,orig:null,dismissed:{},dismissing:null,seen:{},versions:[],log:[],extra:[]};
+try{const x=localStorage.getItem('mohar-v1');if(x)S={...S,...JSON.parse(x)}}catch(e){}
+S.busy=false;const save=()=>{try{localStorage.setItem('mohar-v1',JSON.stringify(S))}catch(e){}};
+const store=()=>[...BASE,...S.extra];
+const L=h=>{const n=parseInt(h.slice(1),16),f=c=>{c/=255;return c<=.03928?c/12.92:((c+.055)/1.055)**2.4};return .2126*f(n>>16)+.7152*f(n>>8&255)+.0722*f(n&255)};
+const ratio=(a,b)=>{const x=L(a),y=L(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)};
+const log=(a)=>{S.log.unshift({ts:new Date().toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}),who:S.role,a})};
+const title=s=>s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());
+function review(){
+ const t=S.text,F=[],add=o=>F.push({...o,key:o.src+'|'+o.quote});let m;
+ const R=(re,fn)=>{re.lastIndex=0;while((m=re.exec(t)))fn(m)};
+ R(/(\d{1,3})\s?%\s*off(?:\s+(?:everything|all\s+\w+|sitewide))?/gi,m=>{if(+m[1]>25||/everything|all|sitewide/i.test(m[0]))add({cat:'Claims',sev:'Critical',verdict:'Confirmed',s:m.index,e:m.index+m[0].length,quote:m[0],src:'PR-SUM-26',sq:'up to 25% off selected styles',why:'The approved summer promotion is smaller and applies to selected styles only.',fix:'up to 25% off selected styles'})});
+ R(/([\d.,]+)\s*(million|lakh|thousand|k)?\s*customers/gi,m=>{const n=parseFloat(m[1].replace(/,/g,''))*({million:1e6,lakh:1e5,thousand:1e3,k:1e3}[(m[2]||'').toLowerCase()]||1);if(n>400000)add({cat:'Facts',sev:'High',verdict:'Confirmed',s:m.index,e:m.index+m[0].length,quote:m[0],src:'F-017',sq:'400,000+ customers',why:'The approved customer figure is lower than the number claimed.',fix:'400,000+ customers'})});
+ const sup={best:'dependable',guaranteed:'backed by our returns policy',unbeatable:'dependable',cheapest:'affordable','number one':'trusted','#1':'trusted'};
+ R(/\b(best|guaranteed|unbeatable|cheapest|number one)\b/gi,m=>add({cat:'Claims',sev:/guar/i.test(m[0])?'High':'Low',verdict:'Needs review',s:m.index,e:m.index+m[0].length,quote:m[0],src:'G-4.2',sq:'need an approved supporting fact',gap:true,why:'No approved fact backs this word, and the policy does not define which words count as superlatives. This is a rule gap, so a person decides.',fix:sup[m[0].toLowerCase()]}));
+ store().filter(r=>r.bad).forEach(r=>R(new RegExp('\\b'+r.bad.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','gi'),m=>add({cat:'Terminology',sev:'Medium',verdict:'Confirmed',s:m.index,e:m.index+m[0].length,quote:m[0],src:r.id,sq:r.text,why:'This wording is on the approved terminology list.',fix:r.good})));
+ R(/\b[A-Z]{3,}(?:\s+[A-Z]{3,})+/g,m=>add({cat:'Tone',sev:'Medium',verdict:'Likely',s:m.index,e:m.index+m[0].length,quote:m[0],src:'G-2.1',sq:'never write headlines in capitals',why:'Capitalised headlines read as shouting. Tone is partly subjective, so this is marked Likely.',fix:title(m[0])}));
+ const ex=[...t.matchAll(/!/g)];if(ex.length>1){const x=ex[ex.length-1];add({cat:'Tone',sev:'Low',verdict:'Likely',s:x.index,e:x.index+1,quote:'!',src:'G-2.1',sq:'at most one exclamation mark',why:'More than one exclamation mark in one piece.',fix:'.'})}
+ const r=ratio(S.fg,S.bg);if(r<4.5){let c=S.fg,k=0;const n=parseInt(c.slice(1),16);while(ratio(c,S.bg)<4.5&&k++<99){const f=1-k/100,h=v=>Math.round(v*f).toString(16).padStart(2,'0');c='#'+h(n>>16)+h(n>>8&255)+h(n&255)}
+  add({cat:'Visual',sev:'High',verdict:'Confirmed',kind:'color',s:-1,e:-1,quote:'Text colour '+S.fg.toUpperCase()+' on '+S.bg.toUpperCase(),src:'G-7.1',sq:'at least 4.5:1',why:'Calculated contrast is '+r.toFixed(1)+':1, below the 4.5:1 minimum for normal text.',fix:c.toUpperCase()})}
+ if(['Email','Newsletter'].includes(S.type)&&!/unsubscribe/i.test(t))add({cat:'Format',sev:'Medium',verdict:'Confirmed',kind:'append',s:-1,e:-1,quote:'No unsubscribe line',src:'G-5.1',sq:'must end with an unsubscribe line',why:'Marketing emails need an unsubscribe line at the end.',fix:'To stop receiving these emails, click unsubscribe.'});
+ if(S.type==='Post'){const h=[...t.matchAll(/#\w+/g)];if(h.length>3){const a=h[3].index,b=h[h.length-1].index+h[h.length-1][0].length;add({cat:'Format',sev:'Low',verdict:'Confirmed',s:a,e:b,quote:t.slice(a,b),src:'G-5.2',sq:'at most three hashtags',why:'This post has '+h.length+' hashtags; the limit is three.',fix:''})}}
+ if(S.type==='SMS'){if(t.length>160)add({cat:'Format',sev:'Medium',verdict:'Confirmed',s:160,e:t.length,quote:t.slice(160),src:'G-5.3',sq:'160 characters or fewer',why:'This message is '+t.length+' characters; the limit is 160. The overflow is highlighted.',fix:null,kind:'manual'});
+  if(!/\bSTOP\b/.test(t))add({cat:'Format',sev:'Medium',verdict:'Confirmed',kind:'append',s:-1,e:-1,quote:'No opt-out line',src:'G-5.3',sq:'Reply STOP to opt out',why:'Marketing SMS must tell people how to opt out.',fix:'Reply STOP to opt out.'})}
+ if(['Website','Blog','Newsletter'].includes(S.type))R(/\[\s*(click here|here|read more|more|link)\s*\]\([^)]*\)/gi,m=>add({cat:'Accessibility',sev:'Medium',verdict:'Confirmed',s:m.index,e:m.index+m[0].length,quote:m[0],src:'G-6.1',sq:'Link text must describe the destination',why:'Link text should say where the link goes, not "click here" or "read more".',fix:null,kind:'manual'}));
+ if(S.type==='Website')R(/!\[\s*\]\([^)]*\)/g,m=>add({cat:'Accessibility',sev:'Medium',verdict:'Confirmed',s:m.index,e:m.index+m[0].length,quote:m[0],src:'G-6.2',sq:'Every image needs alt text',why:'This image has no alt text.',fix:null,kind:'manual'}));
+ const AP=['#1F3A2E','#D9822B','#F4EFE6','#1B1B1B','#FFFFFF'],ac=S.accent.toUpperCase();
+ if(!AP.includes(ac)){const rgb=h=>{const n=parseInt(h.slice(1),16);return[n>>16,n>>8&255,n&255]},dd=h=>rgb(h).reduce((s,v,i)=>s+(v-rgb(ac)[i])**2,0);const nb=AP.slice().sort((a,b)=>dd(a)-dd(b))[0];add({cat:'Visual',sev:'Medium',verdict:'Confirmed',kind:'accent',s:-1,e:-1,quote:'Accent colour '+ac,src:'V-1',sq:'Use only approved brand colours',why:'This colour is not in the approved palette. The closest approved colour is suggested.',fix:nb})}
+ if(S.logo!=='Current 2026'){const old=S.logo==='Old 2022';add({cat:'Visual',sev:old?'High':'Medium',verdict:old?'Confirmed':'Needs review',kind:'logo',s:-1,e:-1,quote:'Logo: '+S.logo,src:'V-2',sq:'Always use the 2026 logo',why:old?'The 2022 logo is retired.':'No logo is present. A person should confirm this is intended.',fix:'Current 2026'})}
+ return F.map(f=>{const s=store().find(x=>x.id===f.src);f.valid=!!(s&&s.text.includes(f.sq));return f});
+}
+const open=()=>review().filter(f=>!S.dismissed[f.key]);
+function diff(a,b){const x=a.split(/(\s+)/),y=b.split(/(\s+)/),n=x.length,m=y.length,d=Array.from({length:n+1},()=>Array(m+1).fill(0));for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)d[i][j]=x[i]===y[j]?d[i+1][j+1]+1:Math.max(d[i+1][j],d[i][j+1]);let i=0,j=0,o='';while(i<n&&j<m){if(x[i]===y[j]){o+=esc(x[i]);i++;j++}else if(d[i+1][j]>=d[i][j+1]){o+='<del>'+esc(x[i++])+'</del>'}else{o+='<ins>'+esc(y[j++])+'</ins>'}}while(i<n)o+='<del>'+esc(x[i++])+'</del>';while(j<m)o+='<ins>'+esc(y[j++])+'</ins>';return o}
+const lastV=()=>S.versions[0];
+function card(f){const d=S.dismissed[f.key];
+ return `<article class="f ${f.sev}" id="c-${btoa(unescape(encodeURIComponent(f.key))).replace(/\W/g,'')}"><div class="tags"><span class="tag sev">${f.sev}</span><span class="tag v">${f.verdict}</span><span class="tag">${f.cat}</span><span class="tag">Rule engine</span><span class="tag ${f.valid?'chk':'bad'}">${f.valid?'Citation verified':'Source not found: downgraded'}</span></div>
+ <h4>${esc(f.quote)}</h4><div style="color:var(--mut)">${esc(f.why)}</div>
+ <div class="q"><b>${f.src}</b> says: “${esc(f.sq)}”</div>
+ ${d?`<div class="tag">Dismissed: ${esc(d)}</div>`:`${f.kind==='manual'?'<div class="q">No automatic fix for this one. Edit the draft, or dismiss it with a reason.</div>':''}<div class="fix" ${f.kind==='manual'?'hidden':''}><span>${{color:'Use text colour',accent:'Use accent colour',logo:'Use logo',append:'Add line'}[f.kind]||'Suggested edit'}:</span>${f.kind?'':`<del>${esc(f.quote)}</del>`}${f.kind||f.fix===''?`<ins>${esc(f.fix)||'remove them'}</ins>`:`<input type="text" class="fxin" value="${esc(f.fix)}" aria-label="Edit the suggestion">`}</div>
+ ${S.dismissing===f.key?`<div class="dis"><select id="why"><option>Intentional creative choice</option><option>Rule does not apply here</option><option>Rule is unclear</option><option>Fact is out of date</option></select><button class="btn sm" data-a="dismissOk" data-k="${esc(f.key)}">Confirm dismiss</button><button class="btn ghost sm" data-a="dismissNo">Cancel</button></div>`:`<div class="dis">${f.kind==='manual'?'':`<button class="btn sm" data-a="accept" data-k="${esc(f.key)}">Accept edit</button>`}<button class="btn ghost sm" data-a="dismiss" data-k="${esc(f.key)}">Dismiss with reason</button></div>`}`}</article>`}
+function marked(F){const sp=F.filter(f=>f.s>=0&&!S.dismissed[f.key]).sort((a,b)=>a.s-b.s);let o='',p=0;for(const f of sp){if(f.s<p)continue;o+=esc(S.text.slice(p,f.s))+`<mark class="${f.sev}" data-a="jump" data-k="${esc(f.key)}" title="${f.src}">${esc(S.text.slice(f.s,f.e))}</mark>`;p=f.e}return o+esc(S.text.slice(p))}
+const V={
+desk(){const F=S.ran?review():[],O=F.filter(f=>!S.dismissed[f.key]),D=F.filter(f=>S.dismissed[f.key]),v=lastV();
+ const st=!S.ran?0:!v?1:v.status==='Ready to publish'?4:v.status==='Changes requested'?1:3;
+ const labs=['Write draft','Review findings','Send to reviewer','Human decision'];
+ const r=ratio(S.fg,S.bg);
+ return `<h1>Check it before it goes out.</h1><p class="lede">Paste a post, advert, email or document. Mohar compares it with Northwind Outdoor Co.’s approved rules, facts and colours, names the source behind every finding, and leaves the decision with a person.</p>
+ ${v&&v.status==='Changes requested'?`<div class="banner warn">Reviewer requested changes${v.note?': “'+esc(v.note)+'”':''}. Revise and send version ${S.versions.length+1}.</div>`:''}
+ ${v&&v.status==='Ready to publish'?`<div class="banner ok">Version ${v.n} approved by ${esc(v.by)}. Ready to publish.</div>`:''}
+ <ol class="steps">${labs.map((l,i)=>`<li class="${i<st||st===4?'done':i===st?'on':''}">${l}</li>`).join('')}</ol>
+ <div class="cols"><section class="card paper"><h3>Draft</h3>
+ <div class="types" role="radiogroup" aria-label="Content type">${TYPES.map(([id,l,d])=>`<button type="button" class="ty" role="radio" aria-checked="${S.type===id}" data-a="type" data-t="${id}"><b>${l}</b><span>${d}</span></button>`).join('')}</div>
+ <div class="chips"><span>Always checked: terms, facts, claims, tone, contrast, palette, logo.</span>${(EXTRA[S.type]||[]).map(x=>`<span class="tag chk">+ ${x}</span>`).join('')}</div>
+ <div class="dz" id="dz"><div><b>Drop a PDF, Word or text file here</b><small>Or choose one. The text is read in your browser and never uploaded.</small></div><label class="btn ghost sm" style="cursor:pointer">Choose file<input type="file" id="up" class="vh" accept=".pdf,.docx,.txt,.md"></label>${S.busy?'<span class="spin" role="status" aria-label="Reading file"></span>':''}${S.file?`<span class="tag chk">${esc(S.file)}</span>`:''}</div>
+ ${S.ran?`<div class="marked" aria-label="Marked draft">${marked(F)}</div>`:`<textarea id="draft" aria-label="Draft text" placeholder="Paste your draft here">${esc(S.text)}</textarea>`}
+ <div class="vis"><label>Text <input type="color" id="fg" value="${S.fg}" ${S.ran?'disabled':''}></label><label>Background <input type="color" id="bg" value="${S.bg}" ${S.ran?'disabled':''}></label><label>Accent <input type="color" id="ac" value="${S.accent}" ${S.ran?'disabled':''}></label><label>Logo <select id="lg" ${S.ran?'disabled':''}>${['Current 2026','Old 2022','No logo'].map(x=>`<option ${S.logo===x?'selected':''}>${x}</option>`).join('')}</select></label><div class="swatch" style="color:${S.fg};background:${S.bg}">Preview text · contrast ${r.toFixed(1)}:1 ${r>=4.5?'(passes)':'(below 4.5:1)'}</div></div>
+ <div class="row"><button class="btn ghost" data-a="newdraft">New draft</button>${S.ran?`<button class="btn ghost" data-a="edit">Edit draft</button>`:`<button class="btn" data-a="run">Run review</button><button class="btn ghost" data-a="sample">Load sample draft</button>`}
+ ${S.ran?`<button class="btn" data-a="send" ${!S.text.trim()?'disabled':''}>Send to reviewer</button>`:''}</div></section>
+ <section>${S.ran?scoreBlock(F):''}<h3 class="serif" style="font-size:22px;margin-bottom:12px">${S.ran?(O.length?O.length+' finding'+(O.length>1?'s':'')+' to resolve':'Findings'):'Findings'}</h3>
+ ${!S.ran?`<div class="empty">Nothing reviewed yet.<br>Run the review to see every issue with its rule and a suggested fix.</div>`:`${O.length?O.map(card).join(''):`<div class="clear">All findings resolved. Send this version to a reviewer.</div>`}${D.length?`<h4 style="margin:18px 0 8px;color:var(--mut)">Dismissed (${D.length})</h4>${D.map(card).join('')}`:''}`}
+ <p style="font-size:12.5px;color:var(--mut)">AI layer: off in this build. Every finding here comes from the rule engine, and the citation validator rechecks each source quote against the workspace.</p></section></div>`},
+appr(){const v=lastV(),can=S.role!=='Creator';
+ if(!v)return `<h1>Approvals</h1><p class="lede">Nothing has been sent yet.</p><div class="empty">Review a draft on the desk, then send it to a reviewer.</div>`;
+ const open_=v.open||[],crit=open_.filter(o=>o.sev==='Critical').length;
+ return `<h1>Approvals</h1><p class="lede">A person makes the final decision. Mohar only prepares the evidence.</p>
+ <div class="grid2"><section class="card"><h3>Version ${v.n} · ${esc(v.status)}</h3><p style="color:var(--mut);margin-top:0">Sent by ${esc(v.from)} on ${esc(v.ts)}</p>
+ <h4 style="margin:0 0 6px">Changes from the original</h4><div class="diff">${diff(S.orig?S.orig.text:v.text,v.text)}</div>
+ <h4 style="margin:18px 0 6px">Open at submission</h4>${open_.length?`<table class="tbl">${open_.map(o=>`<tr><td><b>${o.sev}</b></td><td>${esc(o.quote)}</td><td>${o.src}</td></tr>`).join('')}</table>`:'<p style="color:var(--ok);margin:0">No open findings.</p>'}
+ ${v.dis&&v.dis.length?`<h4 style="margin:18px 0 6px">Dismissals</h4><table class="tbl">${v.dis.map(x=>`<tr><td>${esc(x[0])}</td><td>${esc(x[1])}</td></tr>`).join('')}</table>`:''}</section>
+ <section class="card"><h3>Decision</h3>
+ ${can&&v.status==='Awaiting review'?`<textarea class="c" id="note" placeholder="Comment for the creator${crit?' (required to approve with a Critical finding open)':''}"></textarea><div class="row" style="margin-top:12px"><button class="btn ok" data-a="approve">Approve</button><button class="btn ghost" data-a="changes">Request changes</button></div>`
+ :v.status==='Awaiting review'?`<div class="banner info">Waiting for a reviewer. Try the reviewer view to approve or request changes.</div><button class="btn" data-a="role" data-r="Reviewer">Switch to Reviewer</button>`
+ :`<div class="banner ${v.status==='Ready to publish'?'ok':'warn'}">${esc(v.status)} by ${esc(v.by)}${v.note?': “'+esc(v.note)+'”':''}</div>${v.status==='Changes requested'?'<button class="btn" data-a="tab" data-t="desk">Revise on the desk</button>':'<p style="color:var(--mut)">Publishing itself is outside this MVP. Marked and recorded as Ready to publish.</p>'}`}
+ <div class="row" style="margin-top:16px"><button class="btn ghost sm" data-a="copyrep">Copy review report</button></div>
+ </section></div>`},
+ws(){return `<h1>Brand workspace</h1><p class="lede">The single source of truth Mohar checks against. Fictional brand: Northwind Outdoor Co.</p>
+ <div class="grid2"><section class="card"><h3>Rules, facts and terms</h3><table class="tbl">${store().map(r=>`<tr><td><b>${r.id}</b></td><td>${esc(r.cat)}</td><td>${esc(r.text)}</td></tr>`).join('')}</table></section>
+ <section class="card"><h3>Add a terminology rule</h3><p style="color:var(--mut);margin-top:0">The engine uses it on the next review.</p><div class="row"><input type="text" id="tb" placeholder="Avoid this wording" aria-label="Wording to avoid"><input type="text" id="tg" placeholder="Use this instead" aria-label="Preferred wording"><button class="btn" data-a="addterm">Add rule</button></div><h3 style="margin-top:22px">Add a guideline or approved fact</h3><p style="color:var(--mut);margin-top:0">Banned phrases are enforced on the next review. Facts and notes are stored as citable sources.</p><div class="row"><select id="gk" aria-label="Kind"><option>Banned phrase</option><option>Approved fact</option><option>Guideline note</option></select><input type="text" id="gt" placeholder="Write the text" style="flex:1;min-width:180px" aria-label="Text to add"><button class="btn" data-a="addrule">Add to workspace</button></div></section></div>`},
+ins(){const c={...SEED.cat},d={...SEED.dis};let gap=SEED.gap;Object.values(S.seen).forEach(s=>{c[s.cat]=(c[s.cat]||0)+1;if(s.gap)gap++});Object.entries(S.dismissed).forEach(([k])=>{const id=k.split('|')[0];d[id]=(d[id]||0)+1});
+ const mx=Math.max(...Object.values(c));
+ return `<h1>Guideline health</h1><p class="lede">Which rules people keep tripping on, and which rules may be unclear. Includes fictional seeded history so the view is never empty.</p>
+ <div class="grid2"><section class="card"><h3>Repeat issues by category</h3>${Object.entries(c).map(([k,n])=>`<p style="margin:10px 0 4px">${k}: <b>${n}</b></p><div class="barw"><div class="bar" style="width:${n/mx*100}%"></div></div>`).join('')}</section>
+ <section class="card"><h3>Most dismissed rules</h3><table class="tbl">${Object.entries(d).sort((a,b)=>b[1]-a[1]).map(([k,n])=>`<tr><td><b>${k}</b></td><td>${n} dismissals</td></tr>`).join('')}</table>
+ <div class="banner info" style="margin:16px 0 0"><b>Suggested for a manager:</b> clarify rule G-4.2. Superlative words triggered ${gap} times with no clear definition. Managers decide.</div></section></div>`},
+aud(){return `<h1>Audit trail</h1><p class="lede">Append-only record of every submission, decision and approval.</p><section class="card">${S.log.length?`<ul class="log">${S.log.map(l=>`<li><small>${l.ts}</small><b>${l.who}</b> ${esc(l.a)}</li>`).join('')}</ul>`:'<div class="empty">No activity yet.</div>'}</section>`}};
+const TABS=[['desk','Review desk'],['appr','Approvals'],['ws','Workspace'],['ins','Insights'],['aud','Audit trail']];
+function render(){const v=lastV(),pend=v&&v.status==='Awaiting review'?1:0;
+ $('#nav').innerHTML=TABS.map(([k,l])=>`<button class="nav" data-a="tab" data-t="${k}" ${S.tab===k?'aria-current="page"':''}>${l}${k==='appr'&&pend?'<i>1</i>':''}</button>`).join('');
+ $('#seg').innerHTML=['Creator','Reviewer','Manager'].map(r=>`<button data-a="role" data-r="${r}" aria-pressed="${S.role===r}">${r}</button>`).join('');
+ $('#main').innerHTML=V[S.tab]();save()}
+function toast(m){$('#t').innerHTML=`<div class="toast" role="status">${esc(m)}</div>`;setTimeout(()=>$('#t').innerHTML='',2200)}
+const byKey=k=>review().find(f=>f.key===k);
+const A={
+type:d=>{const x=SAMPLES[d.t],lv=lastV(),was=S.ran;if(was&&lv&&lv.status==='Awaiting review'&&!confirm('Start a new draft? The one waiting for review will be cleared from this screen. The audit trail keeps the record.'))return;S.type=d.t;if(was||!S.text.trim()||Object.values(SAMPLES).some(q=>q.t===S.text)){fresh();S.text=x.t;S.fg=x.fg;S.accent=x.accent;S.logo=x.logo;S.file=null;if(was)toast('New '+d.t+' draft started')}render()},
+newdraft:()=>{const lv=lastV();if(S.ran&&lv&&lv.status==='Awaiting review'&&!confirm('Start a new draft? The one waiting for review will be cleared from this screen.'))return;fresh();S.text='';S.file=null;render();toast('Blank draft ready')},
+copyrep:()=>{const v=lastV(),O=open(),L=['# Mohar review report','Type: '+S.type,'Compliance score: '+(S.startScore??'-')+' to '+score(O),'','## Original draft',S.orig?S.orig.text:S.text,'','## Current version',S.text,'','## Open findings',...O.map(f=>'- '+f.sev+' / '+f.verdict+' ['+f.src+'] '+f.quote+': '+f.why),'','## Dismissals',...Object.entries(S.dismissed).map(([k,w])=>'- '+k.split('|')[0]+': '+w),'','## Human decision',v?v.status+(v.by?' by '+v.by:'')+(v.note?' ('+v.note+')':''):'none yet','','AI layer off. Decision support only; a person made the final call.'].join('\n');(navigator.clipboard?navigator.clipboard.writeText(L):Promise.reject()).then(()=>toast('Report copied')).catch(()=>toast('Could not copy automatically'))},
+tab:d=>{S.tab=d.t;render();scrollTo(0,0)},role:d=>{S.role=d.r;render()},
+sample:()=>{const x=SAMPLES[S.type];S.text=x.t;S.fg=x.fg;S.bg='#FFFFFF';S.accent=x.accent;S.logo=x.logo;render()},
+run:()=>{if(!S.text.trim())return toast('Add some text first');S.ran=true;if(!S.orig){S.orig={text:S.text};S.startScore=score(review())}review().forEach(f=>{if(!S.seen[f.key])S.seen[f.key]={cat:f.cat,gap:f.gap}});log('ran a review: '+review().length+' findings');render()},
+edit:()=>{S.ran=false;render()},
+accept:d=>{const f=byKey(d.k);if(!f)return;if(f.kind==='manual')return toast('No automatic fix. Edit the draft instead.');const el=document.getElementById('c-'+btoa(unescape(encodeURIComponent(d.k))).replace(/\W/g,'')),inp=el&&el.querySelector('.fxin'),fx=inp?inp.value:f.fix;if(f.kind==='color')S.fg=fx;else if(f.kind==='accent')S.accent=fx;else if(f.kind==='logo')S.logo=fx;else if(f.kind==='append')S.text=S.text.replace(/\s+$/,'')+'\n\n'+fx;else{S.text=S.text.slice(0,f.s)+fx+S.text.slice(f.e);if(fx==='')S.text=S.text.replace(/ {2,}/g,' ').replace(/\s+([.,!])/g,'$1').trim()}log((inp&&fx!==f.fix?'edited and accepted fix for ':'accepted fix for ')+f.src+': '+f.quote);render();toast('Edit applied. Original kept.')},
+dismiss:d=>{S.dismissing=d.k;render()},dismissNo:()=>{S.dismissing=null;render()},
+dismissOk:d=>{const w=$('#why').value;S.dismissed[d.k]=w;S.dismissing=null;log('dismissed '+d.k.split('|')[0]+' ('+w+')');render()},
+jump:d=>{const el=document.getElementById('c-'+btoa(unescape(encodeURIComponent(d.k))).replace(/\W/g,''));if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1400)}},
+send:()=>{const O=open();S.versions.unshift({n:S.versions.length+1,text:S.text,status:'Awaiting review',from:S.role,ts:new Date().toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}),open:O.map(f=>({sev:f.sev,quote:f.quote,src:f.src})),dis:Object.entries(S.dismissed).map(([k,w])=>[k.split('|')[0]+' '+k.split('|')[1],w])});log('sent version '+S.versions[0].n+' to a reviewer');S.tab='appr';render();toast('Sent. Switch to Reviewer to decide.')},
+approve:()=>{const v=lastV(),n=$('#note').value.trim();if(v.open.some(o=>o.sev==='Critical')&&!n)return toast('Add a comment to approve with a Critical finding open');v.status='Ready to publish';v.by=S.role;v.note=n;log('approved version '+v.n);render()},
+changes:()=>{const v=lastV(),n=$('#note').value.trim();if(!n)return toast('Tell the creator what to change');v.status='Changes requested';v.by=S.role;v.note=n;S.ran=false;S.dismissed={};log('requested changes on version '+v.n+': '+n);render()},
+addrule:()=>{const k=$('#gk').value,t=$('#gt').value.trim();if(!t)return toast('Write the text first');const n=String(S.extra.length+4).padStart(2,'0');if(k==='Banned phrase')S.extra.push({id:'B-'+n,cat:'Terminology',bad:t,good:'',text:'Never use "'+t+'".'});else S.extra.push({id:(k==='Approved fact'?'F-1':'N-')+n,cat:k==='Approved fact'?'Facts':'Guidelines',text:t});log('added to workspace: '+t);render();toast('Added to workspace')},addterm:()=>{const b=$('#tb').value.trim(),g=$('#tg').value.trim();if(!b||!g)return toast('Fill in both fields');S.extra.push({id:'T-'+String(4+S.extra.length).padStart(2,'0'),cat:'Terminology',title:'Term',bad:b,good:g,text:'Say "'+g+'", never "'+b+'".'});log('added terminology rule: '+b+' → '+g);render();toast('Rule added')}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b&&A[b.dataset.a])A[b.dataset.a](b.dataset)});
+document.addEventListener('input',e=>{if(e.target.id==='draft')S.text=e.target.value});
+document.addEventListener('change',e=>{const i=e.target.id,v=e.target.value;if(i==='fg'||i==='bg'){S[i]=v.toUpperCase();render()}else if(i==='ac'){S.accent=v.toUpperCase();render()}else if(i==='lg'){S.logo=v;render()}else if(i==='ct'){S.type=v;if(!S.text.trim()||Object.values(SAMPLES).some(s=>s.t===S.text)){const x=SAMPLES[v];S.text=x.t;S.fg=x.fg;S.accent=x.accent;S.logo=x.logo}render()}else if(i==='up'){loadFile(e.target.files[0]);e.target.value=''}});
+document.addEventListener('dragover',e=>{const z=e.target.closest&&e.target.closest('#dz');if(z){e.preventDefault();z.classList.add('over')}});
+document.addEventListener('dragleave',e=>{const z=e.target.closest&&e.target.closest('#dz');if(z)z.classList.remove('over')});
+document.addEventListener('drop',e=>{const z=e.target.closest&&e.target.closest('#dz');if(z){e.preventDefault();z.classList.remove('over');loadFile(e.dataTransfer.files[0])}});
+render();
+</script></body></html>
