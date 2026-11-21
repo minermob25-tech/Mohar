@@ -1,10 +1,17 @@
-/* Mohar Round 3 Bridge — connects index.html to Backend RBAC, AI Citation Validator & Visual Asset/OCR Inspector */
+/* Mohar Round 3 Bridge — connects index.html to Backend RBAC, Demo Accounts, AI Citation Validator & Visual Inspector */
 (function () {
   const API = '';
+  const DEMO_ACCOUNTS = [
+    { role: 'Creator', name: 'Palak Singh', email: 'creator@northwind.demo', pass: 'mohar2026' },
+    { role: 'Reviewer', name: 'Divya Varshney', email: 'reviewer@northwind.demo', pass: 'mohar2026' },
+    { role: 'Manager', name: 'Jatin Sharma', email: 'manager@northwind.demo', pass: 'mohar2026' },
+  ];
+
   const R3 = {
     token: null,
     workspace: 'northwind-main',
-    userName: 'Jatin Sharma',
+    userName: 'Palak Singh',
+    userEmail: 'creator@northwind.demo',
     aiFindings: [],
     aiMeta: null,
     visualFindings: [],
@@ -28,11 +35,15 @@
     return data;
   }
 
-  async function loginRole(role) {
+  async function loginRole(role, customName) {
+    const targetRole = role || S.role || 'Creator';
+    const acct = DEMO_ACCOUNTS.find((a) => a.role === targetRole) || DEMO_ACCOUNTS[0];
+    R3.userName = customName || acct.name;
+    R3.userEmail = acct.email;
     try {
       const res = await api('/api/auth/login', {
         method: 'POST',
-        json: { role: role || S.role || 'Creator', user_name: R3.userName, workspace_id: R3.workspace },
+        json: { role: targetRole, user_name: R3.userName, workspace_id: R3.workspace },
       });
       R3.token = res.token;
       R3.dbBackend = res.db_backend || 'sqlite';
@@ -88,7 +99,7 @@
   A.role = async function (d) {
     origRole(d);
     await loginRole(d.r);
-    if (R3.online) toast('JWT session active: ' + d.r);
+    if (R3.online) toast('Signed in as ' + R3.userName + ' (' + d.r + ')');
   };
 
   const origRun = A.run;
@@ -282,7 +293,6 @@
     return origLoadFile(f);
   };
 
-  // Relabel AI-assisted & Visual inspector cards so they are visibly distinct from deterministic Rule engine cards
   function relabelEngineBadges() {
     const allF = S.ran ? window.review() : [];
     for (const f of allF) {
@@ -349,10 +359,21 @@
         • Visual Identity Suite (Contrast / Palette / 2022 Logo Asset): <b>${vb.detection_rate}%</b> detection across ${vb.defect_images} defect images, <b>${vb.false_positives}</b> false positives on ${vb.clean_controls} clean controls.</div>`;
     }
 
+    const demoRows = DEMO_ACCOUNTS.map(
+      (a) =>
+        `<div class="row" style="justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line)">
+          <span><b>${a.role}</b> (${a.name}) — <code>${a.email}</code> / Password: <code>${a.pass}</code></span>
+          <button type="button" class="btn ${S.role === a.role ? 'chk' : 'ghost'} sm" data-demo-role="${a.role}">${
+            S.role === a.role ? 'Active session' : 'Login as ' + a.role
+          }</button>
+        </div>`
+    ).join('');
+
     bar.innerHTML = `
       <div class="row" style="justify-content:space-between">
         <div>
           <span class="tag ${R3.online ? 'chk' : 'bad'}">${R3.online ? 'Backend Connected (' + R3.dbBackend + ') · JWT RBAC Active' : 'Offline Browser Fallback'}</span>
+          <span class="tag">Signed in: <b>${R3.userName}</b> (${R3.userEmail})</span>
           <span class="tag">${aiSummary}</span>
         </div>
         <div class="row">
@@ -361,8 +382,38 @@
           <button type="button" class="btn sm" id="r3-bench">Run 25-draft & visual benchmark</button>
         </div>
       </div>
+      <div class="q" style="margin-top:12px">
+        <div style="margin-bottom:6px"><b>Demo Account Credentials (No sign-up needed — click any account below or enter credentials to switch JWT user):</b></div>
+        ${demoRows}
+        <div class="row" style="margin-top:8px;gap:8px">
+          <input id="demo-email" placeholder="Demo email (e.g. reviewer@northwind.demo)" value="${R3.userEmail}" style="max-width:250px" />
+          <input id="demo-pass" type="password" placeholder="Password" value="mohar2026" style="max-width:140px" />
+          <button type="button" class="btn sm" id="demo-login-btn">Sign in</button>
+        </div>
+      </div>
       ${benchHtml}
     `;
+
+    bar.querySelectorAll('[data-demo-role]').forEach((btn) => {
+      btn.onclick = async () => {
+        const r = btn.getAttribute('data-demo-role');
+        origRole({ r });
+        await loginRole(r);
+        toast('Logged in with demo account: ' + R3.userEmail);
+      };
+    });
+
+    document.getElementById('demo-login-btn').onclick = async () => {
+      const em = document.getElementById('demo-email').value.trim().toLowerCase();
+      const pw = document.getElementById('demo-pass').value.trim();
+      const matched = DEMO_ACCOUNTS.find((a) => a.email === em && a.pass === pw);
+      if (!matched) {
+        return toast('Invalid demo credentials. Use one of the listed demo accounts above.');
+      }
+      origRole({ r: matched.role });
+      await loginRole(matched.role, matched.name);
+      toast('Signed in as ' + matched.name + ' (' + matched.role + ')');
+    };
 
     document.getElementById('r3-sync').onclick = async () => {
       await syncWorkspace();
