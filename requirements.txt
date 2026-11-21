@@ -1,0 +1,8 @@
+starlette
+uvicorn
+PyJWT
+httpx
+python-multipart
+pypdf
+pg8000
+pytesseract
